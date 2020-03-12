@@ -16,45 +16,45 @@ public class DisplayDriverImpl implements DisplayDriver {
 
     @Override
     public void setColor(String hex) {
-        gc.setFill(Color.web(hex));
+        gc.setStroke(Color.web(MyColor.BLACK.toHex()));
+        gc.setLineWidth(Const.LINE_WIDTH);
     }
 
     @Override
     public void colorOfSelection(String hex) {
-        gc.setStroke(Color.web(MyColor.BLACK.toHex()));
-        gc.setLineWidth(Const.LINE_WIDTH);
+        gc.setFill(Color.web(hex));
     }
 
 
     @Override
     public void drawOval(double x, double y, double diameter) {
-        gc.fillOval(x, y, diameter, diameter);
+        gc.strokeOval(x, y, diameter, diameter);
     }
 
     @Override
     public void drawTriangle(double x, double y, double side) {
-        gc.fillPolygon(new double[]{x, x + side, x + (side / 2)}, new double[]{getYofTriangle(y, side), getYofTriangle(y, side), y}, 3);
+        gc.strokePolygon(new double[]{x, x + side, x + (side / 2)}, new double[]{getYofTriangle(y, side), getYofTriangle(y, side), y}, 3);
 
     }
 
     @Override
     public void drawSquare(double x, double y, double side) {
-        gc.fillRect(x, y, side, side);
+        gc.strokeRect(x, y, side, side);
     }
 
     @Override
     public void drawSelectedOval(double x, double y, double size) {
-        gc.strokeOval(x, y, size, size);
+        gc.fillOval(x, y, size, size);
     }
 
     @Override
     public void drawSelectedTriangle(double x, double y, double size) {
-        gc.strokePolygon(new double[]{x, x + size, x + (size / 2)}, new double[]{getYofTriangle(y, size), getYofTriangle(y, size), y}, 3);
+        gc.fillPolygon(new double[]{x, x + size, x + (size / 2)}, new double[]{getYofTriangle(y, size), getYofTriangle(y, size), y}, 3);
     }
 
     @Override
     public void drawSelectedSquare(double x, double y, double size) {
-        gc.strokeRect(x, y, size, size);
+        gc.fillRect(x, y, size, size);
     }
 
     private double getYofTriangle(double y, double side) {

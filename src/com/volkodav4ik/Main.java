@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -36,7 +37,16 @@ public class Main extends Application {
         DisplayDriver displayDriver = new DisplayDriverImpl(gc);
         board = new Board(displayDriver);
         scene.setOnKeyPressed(this::handleKeyPressed);
+        scene.setOnMouseClicked(this::handlerMouseClicked);
 
+    }
+
+    private void handlerMouseClicked(MouseEvent mouseEvent) {
+        if (mouseEvent.isControlDown()){
+            double x = mouseEvent.getX();
+            double y = mouseEvent.getY();
+            board.selectByMouse(x, y);
+        }
     }
 
     private void handleKeyPressed(KeyEvent keyEvent) {
@@ -50,7 +60,7 @@ public class Main extends Application {
             case DIGIT3:
                 board.addTriangle();
                 break;
-            case C:
+            case S:
                 board.selectShape();
                 break;
             case RIGHT:
@@ -78,7 +88,8 @@ public class Main extends Application {
     }
 
     @Override
-    public void stop() { closed = true;
+    public void stop() {
+        closed = true;
     }
 
     private void runGame() {
