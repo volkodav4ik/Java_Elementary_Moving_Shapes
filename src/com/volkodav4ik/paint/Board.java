@@ -2,14 +2,16 @@ package com.volkodav4ik.paint;
 
 import com.volkodav4ik.Const;
 import com.volkodav4ik.paint.shapes.*;
-
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
 
+
+    public enum Direction {UP, DOWN, LEFT, RIGHT;}
+
     private final DisplayDriver displayDriver;
+
     private int numberOfShape;
 
     private List<Shape> shapes = new ArrayList<>();
@@ -44,10 +46,10 @@ public class Board {
         selectLastAdd();
     }
 
-    public void cloneShapes(){
+    public void cloneShapes() {
         List<Shape> tmpList = new ArrayList<>();
-        for (Shape shape : shapes){
-            if (shape.ifSelected()){
+        for (Shape shape : shapes) {
+            if (shape.ifSelected()) {
                 if (shape instanceof Oval) {
                     tmpList.add(new Oval((Oval) shape));
                 }
@@ -85,42 +87,10 @@ public class Board {
         numberOfShape++;
     }
 
-    public void moveRight() {
+    public void move(Direction direction) {
         for (Shape shape : shapes) {
             if (shape.ifSelected()) {
-                if (!(shape.getX() >= (Const.BOARD_WIDTH - shape.getSize()))) {
-                    shape.setX(shape.getX() + Const.STEP_OF_MOVEMENT);
-                }
-            }
-        }
-    }
-
-    public void moveLeft() {
-        for (Shape shape : shapes) {
-            if (shape.ifSelected()) {
-                if (!(shape.getX() <= 0)) {
-                    shape.setX(shape.getX() - Const.STEP_OF_MOVEMENT);
-                }
-            }
-        }
-    }
-
-    public void moveUp() {
-        for (Shape shape : shapes) {
-            if (shape.ifSelected()) {
-                if (!(shape.getY() <= 0)) {
-                    shape.setY(shape.getY() - Const.STEP_OF_MOVEMENT);
-                }
-            }
-        }
-    }
-
-    public void moveDown() {
-        for (Shape shape : shapes) {
-            if (shape.ifSelected()) {
-                if (!(shape.getY() >= (Const.BOARD_WIDTH - shape.getSize()))) {
-                    shape.setY(shape.getY() + Const.STEP_OF_MOVEMENT);
-                }
+                shape.move(direction);
             }
         }
     }
@@ -128,19 +98,15 @@ public class Board {
     public void increaseSize() {
         for (Shape shape : shapes) {
             if (shape.ifSelected()) {
-                if (((Const.BOARD_WIDTH - Const.STEP_OF_MOVEMENT) > (shape.getX() + shape.getSize()))
-                        && ((Const.BOARD_HEIGHT - Const.STEP_OF_MOVEMENT) > (shape.getY() + shape.getSize()))) {
-                    shape.setSize(shape.getSize() + Const.VALUE_OF_CHANGING_SIZE);
-                }
+                shape.increaseSize();
             }
         }
     }
+
     public void decreaseSize() {
         for (Shape shape : shapes) {
             if (shape.ifSelected()) {
-                if (shape.getSize() > Const.VALUE_OF_CHANGING_SIZE) {
-                    shape.setSize(shape.getSize() - Const.VALUE_OF_CHANGING_SIZE);
-                }
+                shape.decreaseSize();
             }
         }
     }
@@ -151,7 +117,7 @@ public class Board {
             if (shape instanceof Square) {
                 if (x >= shape.getX() && x <= (shape.getX() + shape.getSize())
                         && y >= shape.getY() && y <= (shape.getY() + shape.getSize())) {
-                    if (shape.ifSelected()){
+                    if (shape.ifSelected()) {
                         shape.setSelected(false);
                     } else {
                         shape.setSelected(true);
@@ -161,7 +127,7 @@ public class Board {
             }
             if (shape instanceof Triangle) {
                 if (triangleByCoordinate(shape, x, y)) {
-                    if (shape.ifSelected()){
+                    if (shape.ifSelected()) {
                         shape.setSelected(false);
                     } else {
                         shape.setSelected(true);
@@ -170,9 +136,9 @@ public class Board {
                 }
             }
             if (shape instanceof Oval) {
-                if ((Math.pow(((shape.getX() + shape.getSize()/2) - x), 2)
-                        + Math.pow(((shape.getY() + shape.getSize()/2) - y), 2)) <= Math.pow(shape.getSize()/2, 2)) {
-                    if (shape.ifSelected()){
+                if ((Math.pow(((shape.getX() + shape.getSize() / 2) - x), 2)
+                        + Math.pow(((shape.getY() + shape.getSize() / 2) - y), 2)) <= Math.pow(shape.getSize() / 2, 2)) {
+                    if (shape.ifSelected()) {
                         shape.setSelected(false);
                     } else {
                         shape.setSelected(true);
@@ -194,25 +160,25 @@ public class Board {
         double cX = shape.getX() + shape.getSize();
         double A = (aX - x) * (bY - aY) - (bX - aX) * (aY - y);
         double B = (bX - x) * (aY - bY) - (cX - bX) * (bY - y);
-        double C = -1 * (aX - cX)*(aY - y);
+        double C = -1 * (aX - cX) * (aY - y);
         return (A > 0 && B > 0 && C > 0) || (A < 0 && B < 0 && C < 0);
     }
 
     private void addClonesToMainList(List<Shape> tmpList) {
-        for (Shape cloneShape: tmpList) {
+        for (Shape cloneShape : tmpList) {
             cloneShape.setSelected(true);
             shapes.add(cloneShape);
         }
     }
 
-    private void allNonSelected(){
+    private void allNonSelected() {
         for (Shape shape : shapes) {
             shape.setSelected(false);
         }
     }
 
-    private void selectLastAdd(){
+    private void selectLastAdd() {
         allNonSelected();
-        shapes.get(shapes.size()-1).setSelected(true);
+        shapes.get(shapes.size() - 1).setSelected(true);
     }
 }

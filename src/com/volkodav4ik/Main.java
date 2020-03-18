@@ -71,16 +71,16 @@ public class Main extends Application {
                 board.selectShape();
                 break;
             case RIGHT:
-                board.moveRight();
+                board.move(Board.Direction.RIGHT);
                 break;
             case LEFT:
-                board.moveLeft();
+                board.move(Board.Direction.LEFT);
                 break;
             case UP:
-                board.moveUp();
+                board.move(Board.Direction.UP);
                 break;
             case DOWN:
-                board.moveDown();
+                board.move(Board.Direction.DOWN);
                 break;
             case ADD:
                 board.increaseSize();

@@ -1,9 +1,10 @@
 package com.volkodav4ik.paint.shapes;
 
+import com.volkodav4ik.Const;
 import com.volkodav4ik.paint.Board;
 import com.volkodav4ik.paint.DisplayDriver;
 
-public abstract class BaseShape implements Shape{
+public abstract class BaseShape implements Shape {
 
     protected Board board;
     protected DisplayDriver displayDriver;
@@ -31,6 +32,47 @@ public abstract class BaseShape implements Shape{
     }
 
     @Override
+    public void move(Board.Direction direction) {
+        switch (direction) {
+            case RIGHT:
+                if (!(this.x >= (Const.BOARD_WIDTH - this.size))) {
+                    this.x += +Const.STEP_OF_MOVEMENT;
+                }
+                break;
+            case LEFT:
+                if (!(this.x <= 0)) {
+                    this.x -= Const.STEP_OF_MOVEMENT;
+                }
+                break;
+            case UP:
+                if (!(this.y <= 0)) {
+                    this.y -= Const.STEP_OF_MOVEMENT;
+                }
+                break;
+            case DOWN:
+                if (!(this.y >= (Const.BOARD_WIDTH - this.size))) {
+                    this.y += Const.STEP_OF_MOVEMENT;
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void increaseSize() {
+        if (((Const.BOARD_WIDTH - Const.STEP_OF_MOVEMENT) > (this.x + this.size))
+                && ((Const.BOARD_HEIGHT - Const.STEP_OF_MOVEMENT) > (this.y + this.size))) {
+            size += Const.VALUE_OF_CHANGING_SIZE;
+        }
+    }
+
+    @Override
+    public void decreaseSize() {
+        if (size > Const.VALUE_OF_CHANGING_SIZE) {
+            size -= Const.VALUE_OF_CHANGING_SIZE;
+        }
+    }
+
+    @Override
     public double getX() {
         return x;
     }
@@ -43,21 +85,6 @@ public abstract class BaseShape implements Shape{
     @Override
     public double getSize() {
         return size;
-    }
-
-    @Override
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    @Override
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    @Override
-    public void setSize(double size) {
-        this.size = size;
     }
 
     public boolean ifSelected() {
