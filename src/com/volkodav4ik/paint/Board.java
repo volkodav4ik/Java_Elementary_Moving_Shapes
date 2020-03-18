@@ -8,7 +8,6 @@ import java.util.List;
 public class Board {
 
     private final DisplayDriver displayDriver;
-    private int previousNumber;
     private int numberOfShape;
 
     private List<Shape> shapes = new ArrayList<>();
@@ -30,14 +29,34 @@ public class Board {
 
     public void addOval() {
         shapes.add(new Oval(this, displayDriver, Const.START_X, Const.START_Y, Const.FIXED_SIZE, MyColor.RED));
+        selectLastAdd();
     }
 
     public void addSquare() {
         shapes.add(new Square(this, displayDriver, Const.START_X, Const.START_Y, Const.FIXED_SIZE, MyColor.VIOLET));
+        selectLastAdd();
     }
 
     public void addTriangle() {
         shapes.add(new Triangle(this, displayDriver, Const.START_X, Const.START_Y, Const.FIXED_SIZE, MyColor.GREEN));
+        selectLastAdd();
+    }
+
+    private void allNonSelected(){
+        for (Shape shape : shapes) {
+            shape.setSelected(false);
+        }
+    }
+
+    private void selectLastAdd(){
+        allNonSelected();
+        shapes.get(shapes.size()-1).setSelected(true);
+    }
+
+    public void addAllShapes() {
+        for (Shape shape : shapes) {
+            shape.setSelected(true);
+        }
     }
 
     public void selectShape() {
@@ -46,11 +65,9 @@ public class Board {
         }
         if (numberOfShape >= shapes.size()) {
             numberOfShape = 0;
-            previousNumber = 0;
         }
-        shapes.get(previousNumber).setSelected(false);
+        allNonSelected();
         shapes.get(numberOfShape).setSelected(true);
-        previousNumber = numberOfShape;
         numberOfShape++;
     }
 
@@ -114,7 +131,6 @@ public class Board {
             }
         }
     }
-
     public void delete() {
         shapes.removeIf(Shape::ifSelected);
     }
@@ -125,20 +141,32 @@ public class Board {
             if (shape instanceof Square) {
                 if (x >= shape.getX() && x <= (shape.getX() + shape.getSize())
                         && y >= shape.getY() && y <= (shape.getY() + shape.getSize())) {
-                    shape.setSelected(true);
+                    if (shape.ifSelected()){
+                        shape.setSelected(false);
+                    } else {
+                        shape.setSelected(true);
+                    }
                     count++;
                 }
             }
             if (shape instanceof Triangle) {
                 if (triangleByCoordinate(shape, x, y)) {
-                    shape.setSelected(true);
+                    if (shape.ifSelected()){
+                        shape.setSelected(false);
+                    } else {
+                        shape.setSelected(true);
+                    }
                     count++;
                 }
             }
             if (shape instanceof Oval) {
                 if ((Math.pow(((shape.getX() + shape.getSize()/2) - x), 2)
                         + Math.pow(((shape.getY() + shape.getSize()/2) - y), 2)) <= Math.pow(shape.getSize()/2, 2)) {
-                    shape.setSelected(true);
+                    if (shape.ifSelected()){
+                        shape.setSelected(false);
+                    } else {
+                        shape.setSelected(true);
+                    }
                     count++;
                 }
             }
@@ -149,7 +177,7 @@ public class Board {
             }
         }
     }
-//дополнить с кругом и с нажатием на пустоту
+
     private boolean triangleByCoordinate(Shape shape, double x, double y) {
         double aX = shape.getX();
         double aY = shape.getY() + Math.sqrt(0.75 * shape.getSize() * shape.getSize());

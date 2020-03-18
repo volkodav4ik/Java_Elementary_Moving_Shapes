@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -50,14 +51,17 @@ public class Main extends Application {
     }
 
     private void handleKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.A){
+            board.addAllShapes();
+        }
         switch (keyEvent.getCode()) {
-            case DIGIT1:
+            case Q:
                 board.addOval();
                 break;
-            case DIGIT2:
+            case W:
                 board.addSquare();
                 break;
-            case DIGIT3:
+            case E:
                 board.addTriangle();
                 break;
             case S:

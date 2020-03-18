@@ -11,7 +11,7 @@ public abstract class BaseShape implements Shape {
     protected double y;
     protected double size;
     protected MyColor color;
-    public boolean selected = false;
+    protected boolean selected = false;
 
     public BaseShape(Board board, DisplayDriver displayDriver, double x, double y, double size, MyColor color) {
         this.board = board;
