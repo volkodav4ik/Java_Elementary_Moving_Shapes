@@ -10,6 +10,10 @@ public class Oval extends BaseShape implements Shape {
         super(board, displayDriver, x, y, size, color);
     }
 
+    public Oval(Oval original) {
+        super(original.board, original.displayDriver, original.x, original.y, original.size, original.color);
+    }
+
     @Override
     public void draw() {
         displayDriver.setColor(color.toHex());

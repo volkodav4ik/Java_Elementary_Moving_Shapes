@@ -52,7 +52,10 @@ public class Main extends Application {
 
     private void handleKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.A){
-            board.addAllShapes();
+            board.selectAllShapes();
+        }
+        if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.K){
+            board.cloneShapes();
         }
         switch (keyEvent.getCode()) {
             case Q:

@@ -1,6 +1,8 @@
 package com.volkodav4ik.paint.shapes;
 
-public interface Shape {
+import java.io.Serializable;
+
+public interface Shape extends Serializable {
 
     void draw();
 

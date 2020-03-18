@@ -2,6 +2,8 @@ package com.volkodav4ik.paint;
 
 import com.volkodav4ik.Const;
 import com.volkodav4ik.paint.shapes.*;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,21 +44,33 @@ public class Board {
         selectLastAdd();
     }
 
-    private void allNonSelected(){
-        for (Shape shape : shapes) {
-            shape.setSelected(false);
+    public void cloneShapes(){
+        List<Shape> tmpList = new ArrayList<>();
+        for (Shape shape : shapes){
+            if (shape.ifSelected()){
+                if (shape instanceof Oval) {
+                    tmpList.add(new Oval((Oval) shape));
+                }
+                if (shape instanceof Square) {
+                    tmpList.add(new Square((Square) shape));
+                }
+                if (shape instanceof Triangle) {
+                    tmpList.add(new Triangle((Triangle) shape));
+                }
+                shape.setSelected(false);
+            }
         }
+        addClonesToMainList(tmpList);
     }
 
-    private void selectLastAdd(){
-        allNonSelected();
-        shapes.get(shapes.size()-1).setSelected(true);
-    }
-
-    public void addAllShapes() {
+    public void selectAllShapes() {
         for (Shape shape : shapes) {
             shape.setSelected(true);
         }
+    }
+
+    public void delete() {
+        shapes.removeIf(Shape::ifSelected);
     }
 
     public void selectShape() {
@@ -121,7 +135,6 @@ public class Board {
             }
         }
     }
-
     public void decreaseSize() {
         for (Shape shape : shapes) {
             if (shape.ifSelected()) {
@@ -130,9 +143,6 @@ public class Board {
                 }
             }
         }
-    }
-    public void delete() {
-        shapes.removeIf(Shape::ifSelected);
     }
 
     public void selectByMouse(double x, double y) {
@@ -172,9 +182,7 @@ public class Board {
             }
         }
         if (count == 0) {
-            for (Shape shapeNonSelected : shapes) {
-                shapeNonSelected.setSelected(false);
-            }
+            allNonSelected();
         }
     }
 
@@ -188,5 +196,23 @@ public class Board {
         double B = (bX - x) * (aY - bY) - (cX - bX) * (bY - y);
         double C = -1 * (aX - cX)*(aY - y);
         return (A > 0 && B > 0 && C > 0) || (A < 0 && B < 0 && C < 0);
+    }
+
+    private void addClonesToMainList(List<Shape> tmpList) {
+        for (Shape cloneShape: tmpList) {
+            cloneShape.setSelected(true);
+            shapes.add(cloneShape);
+        }
+    }
+
+    private void allNonSelected(){
+        for (Shape shape : shapes) {
+            shape.setSelected(false);
+        }
+    }
+
+    private void selectLastAdd(){
+        allNonSelected();
+        shapes.get(shapes.size()-1).setSelected(true);
     }
 }

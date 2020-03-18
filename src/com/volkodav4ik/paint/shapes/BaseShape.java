@@ -3,7 +3,7 @@ package com.volkodav4ik.paint.shapes;
 import com.volkodav4ik.paint.Board;
 import com.volkodav4ik.paint.DisplayDriver;
 
-public abstract class BaseShape implements Shape {
+public abstract class BaseShape implements Shape{
 
     protected Board board;
     protected DisplayDriver displayDriver;
