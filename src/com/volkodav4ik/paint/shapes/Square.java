@@ -13,6 +13,7 @@ public class Square extends BaseShape implements Shape {
     public Square(Square original) {
         super(original.board, original.displayDriver, original.x, original.y, original.size, original.color);
     }
+
     @Override
     public void draw() {
         displayDriver.setColor(color.toHex());
@@ -23,5 +24,5 @@ public class Square extends BaseShape implements Shape {
     public void selectDraw() {
         displayDriver.colorOfSelection(color.toHex());
         displayDriver.drawSelectedSquare(x, y, size);
-}
+    }
 }

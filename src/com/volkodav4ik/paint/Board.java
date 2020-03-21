@@ -2,6 +2,7 @@ package com.volkodav4ik.paint;
 
 import com.volkodav4ik.Const;
 import com.volkodav4ik.paint.shapes.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,18 @@ public class Board {
     public void addTriangle() {
         shapes.add(new Triangle(this, displayDriver, Const.START_X, Const.START_Y, Const.FIXED_SIZE, MyColor.GREEN));
         selectLastAdd();
+    }
+
+    public void addCombineShape() {
+       List<Shape> combineShapes = new ArrayList<>();
+        for (Shape shape : shapes) {
+            if (shape.ifSelected()){
+                combineShapes.add(shape);
+                shapes.remove(shape);
+            }
+        }
+       shapes.add(new CombineShapes(combineShapes));
+       selectLastAdd();
     }
 
     public void cloneShapes() {

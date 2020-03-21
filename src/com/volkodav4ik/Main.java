@@ -43,7 +43,7 @@ public class Main extends Application {
     }
 
     private void handlerMouseClicked(MouseEvent mouseEvent) {
-        if (mouseEvent.isControlDown()){
+        if (mouseEvent.isControlDown()) {
             double x = mouseEvent.getX();
             double y = mouseEvent.getY();
             board.selectByMouse(x, y);
@@ -51,11 +51,14 @@ public class Main extends Application {
     }
 
     private void handleKeyPressed(KeyEvent keyEvent) {
-        if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.A){
+        if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.A) {
             board.selectAllShapes();
         }
-        if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.K){
+        if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.K) {
             board.cloneShapes();
+        }
+        if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.C) {
+            board.addCombineShape();
         }
         switch (keyEvent.getCode()) {
             case Q:
