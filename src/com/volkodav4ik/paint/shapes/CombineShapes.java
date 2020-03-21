@@ -10,16 +10,6 @@ public class CombineShapes implements Shape {
     private List<Shape> combineShapes = new ArrayList<>();
     private boolean selected = false;
 
-
-
-   /* public CombineShapes() {
-    }
-
-    public CombineShapes(Shape s1, Shape s2) {
-        addShape(s1);
-        addShape(s2);
-    }*/
-
     public CombineShapes(List<Shape> combineShapes) {
         setCombineShapes(combineShapes);
     }

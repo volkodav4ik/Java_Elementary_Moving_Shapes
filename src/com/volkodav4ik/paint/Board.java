@@ -9,7 +9,7 @@ import java.util.List;
 public class Board {
 
 
-    public enum Direction {UP, DOWN, LEFT, RIGHT;}
+    public enum Direction {UP, DOWN, LEFT, RIGHT}
 
     private final DisplayDriver displayDriver;
 
@@ -48,15 +48,15 @@ public class Board {
     }
 
     public void addCombineShape() {
-       List<Shape> combineShapes = new ArrayList<>();
+        List<Shape> combineShapes = new ArrayList<>();
         for (Shape shape : shapes) {
-            if (shape.ifSelected()){
+            if (shape.ifSelected()) {
                 combineShapes.add(shape);
-                shapes.remove(shape);
             }
         }
-       shapes.add(new CombineShapes(combineShapes));
-       selectLastAdd();
+        shapes.removeAll(combineShapes);
+        shapes.add(new CombineShapes(combineShapes));
+        selectLastAdd();
     }
 
     public void cloneShapes() {
