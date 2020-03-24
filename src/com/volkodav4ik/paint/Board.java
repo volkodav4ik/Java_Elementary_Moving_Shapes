@@ -2,14 +2,15 @@ package com.volkodav4ik.paint;
 
 import com.volkodav4ik.Const;
 import com.volkodav4ik.paint.shapes.*;
+import com.volkodav4ik.save.Save;
+import com.volkodav4ik.save.SaveShape;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
 
-
-    public enum Direction {UP, DOWN, LEFT, RIGHT}
+    public enum Direction {UP, DOWN, LEFT, RIGHT;}
 
     private final DisplayDriver displayDriver;
 
@@ -95,7 +96,7 @@ public class Board {
         if (shapes.isEmpty()) {
             System.out.println("Nothing to select!");
         }
-        if (shapes.size() == 1){
+        if (shapes.size() == 1) {
             changeSelectionIfClick(shapes.get(0));
         } else {
             if (numberOfShape >= shapes.size()) {
@@ -134,20 +135,20 @@ public class Board {
     public void selectByMouse(double x, double y) {
         int count = 0;
         for (Shape shape : shapes) {
-            if (shape instanceof CombineShapes){
+            if (shape instanceof CombineShapes) {
                 for (Shape combineShape : ((CombineShapes) shape).getCombineShapes()) {
-                   if (combineShape instanceof Square){
-                       if (squareByCoordinate(combineShape, x, y)) {
-                           changeSelectionIfClick(shape);
-                           count++;
-                       }
-                   }
-                   if (combineShape instanceof Triangle) {
+                    if (combineShape instanceof Square) {
+                        if (squareByCoordinate(combineShape, x, y)) {
+                            changeSelectionIfClick(shape);
+                            count++;
+                        }
+                    }
+                    if (combineShape instanceof Triangle) {
                         if (triangleByCoordinate(combineShape, x, y)) {
                             changeSelectionIfClick(shape);
                             count++;
                         }
-                   }
+                    }
                     if (combineShape instanceof Oval) {
                         if (ovalByCoordinate(combineShape, x, y)) {
                             changeSelectionIfClick(shape);
@@ -198,12 +199,12 @@ public class Board {
                 + Math.pow(((shape.getY() + shape.getSize() / 2) - y), 2)) <= Math.pow(shape.getSize() / 2, 2);
     }
 
-    private boolean squareByCoordinate(Shape shape, double x, double y){
+    private boolean squareByCoordinate(Shape shape, double x, double y) {
         return x >= shape.getX() && x <= (shape.getX() + shape.getSize())
                 && y >= shape.getY() && y <= (shape.getY() + shape.getSize());
     }
 
-    private void changeSelectionIfClick(Shape shape){
+    private void changeSelectionIfClick(Shape shape) {
         if (shape.ifSelected()) {
             shape.setSelected(false);
         } else {
@@ -228,4 +229,23 @@ public class Board {
         allNonSelected();
         shapes.get(shapes.size() - 1).setSelected(true);
     }
+
+    public Save getSaveClass() {
+        List<SaveShape> saveList = new ArrayList<>();
+        for (Shape shape : shapes) {
+            SaveShape save = SaveShape.createNewSaveShape(shape);
+            saveList.add(save);
+        }
+        return new Save(saveList);
+    }
+
+    public void loadFromSave(Save save) {
+        shapes.clear();
+        List<SaveShape> saveList = save.getList();
+        for (SaveShape saveShape : saveList) {
+            Shape shape = SaveShape.createShape(saveShape, this, displayDriver);
+            shapes.add(shape);
+        }
+    }
+
 }

@@ -23,10 +23,6 @@ public abstract class BaseShape implements Shape {
         this.color = color;
     }
 
-    public void setColor(MyColor color) {
-        this.color = color;
-    }
-
     public void setSelected(boolean selected) {
         this.selected = selected;
     }

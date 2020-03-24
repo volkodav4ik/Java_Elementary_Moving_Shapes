@@ -9,7 +9,6 @@ public class DisplayDriverImpl implements DisplayDriver {
 
     private final GraphicsContext gc;
 
-
     public DisplayDriverImpl(GraphicsContext gc) {
         this.gc = gc;
     }
@@ -25,7 +24,6 @@ public class DisplayDriverImpl implements DisplayDriver {
         gc.setFill(Color.web(hex));
     }
 
-
     @Override
     public void drawOval(double x, double y, double diameter) {
         gc.strokeOval(x, y, diameter, diameter);
@@ -34,7 +32,6 @@ public class DisplayDriverImpl implements DisplayDriver {
     @Override
     public void drawTriangle(double x, double y, double side) {
         gc.strokePolygon(new double[]{x, x + side, x + (side / 2)}, new double[]{getYofTriangle(y, side), getYofTriangle(y, side), y}, 3);
-
     }
 
     @Override

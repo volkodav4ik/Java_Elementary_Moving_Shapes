@@ -1,8 +1,11 @@
 package com.volkodav4ik;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.volkodav4ik.paint.Board;
 import com.volkodav4ik.paint.DisplayDriver;
 import com.volkodav4ik.paint.DisplayDriverImpl;
+import com.volkodav4ik.save.Save;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -13,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import java.io.*;
 
 public class Main extends Application {
 
@@ -25,7 +29,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         Canvas canvas = new Canvas(Const.BOARD_WIDTH, Const.BOARD_HEIGHT);
         BorderPane group = new BorderPane(canvas);
         Scene scene = new Scene(group);
@@ -34,7 +38,6 @@ public class Main extends Application {
         stage.show();
         gc = canvas.getGraphicsContext2D();
         new Thread(this::runGame).start();
-
         DisplayDriver displayDriver = new DisplayDriverImpl(gc);
         board = new Board(displayDriver);
         scene.setOnKeyPressed(this::handleKeyPressed);
@@ -60,6 +63,12 @@ public class Main extends Application {
         if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.C) {
             board.addCombineShape();
         }
+        if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.S) {
+            saveGame();
+        }
+        if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.L) {
+            loadGame();
+        }
         switch (keyEvent.getCode()) {
             case Q:
                 board.addOval();
@@ -70,7 +79,7 @@ public class Main extends Application {
             case E:
                 board.addTriangle();
                 break;
-            case S:
+            case R:
                 board.selectShape();
                 break;
             case RIGHT:
@@ -97,6 +106,28 @@ public class Main extends Application {
         }
     }
 
+    private void saveGame() {
+        Gson gson = new GsonBuilder().create();
+        String jsonSave = gson.toJson(board.getSaveClass());
+        System.out.println(jsonSave);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Const.SAVE_FILE_NAME))) {
+            writer.write(jsonSave);
+        } catch (IOException e) {
+            System.out.println("Can't save to file.");
+        }
+    }
+
+    private void loadGame() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(Const.SAVE_FILE_NAME))) {
+            String stringForParsing = reader.readLine();
+            Gson gson = new GsonBuilder().create();
+            Save save = gson.fromJson(stringForParsing, Save.class);
+            board.loadFromSave(save);
+        } catch (IOException e) {
+            System.out.println("File \"save\" can't be found!");
+        }
+    }
+
     @Override
     public void stop() {
         closed = true;
@@ -110,7 +141,6 @@ public class Main extends Application {
             } catch (InterruptedException e) {
                 break;
             }
-
         }
     }
 

@@ -17,7 +17,7 @@ public class CombineShapes implements Shape {
     public CombineShapes(CombineShapes original) {
         List<Shape> tmpList = new ArrayList<>();
         for (Shape shape : original.getCombineShapes()) {
-            if (shape instanceof Oval){
+            if (shape instanceof Oval) {
                 tmpList.add(new Oval((Oval) shape));
             }
             if (shape instanceof Square) {
@@ -67,21 +67,21 @@ public class CombineShapes implements Shape {
 
     @Override
     public void move(Board.Direction direction) {
-        for (Shape shape : combineShapes){
+        for (Shape shape : combineShapes) {
             shape.move(direction);
         }
     }
 
     @Override
     public void increaseSize() {
-        for (Shape shape : combineShapes){
+        for (Shape shape : combineShapes) {
             shape.increaseSize();
         }
     }
 
     @Override
     public void decreaseSize() {
-        for (Shape shape : combineShapes){
+        for (Shape shape : combineShapes) {
             shape.decreaseSize();
         }
     }

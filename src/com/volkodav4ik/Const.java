@@ -11,4 +11,5 @@ public class Const {
     public static final double LINE_WIDTH = 5;
     public static final double STEP_OF_MOVEMENT = 5;
     public static final double VALUE_OF_CHANGING_SIZE = 5;
+    public static final String SAVE_FILE_NAME = "save.txt";
 }
