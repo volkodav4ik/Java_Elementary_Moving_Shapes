@@ -131,34 +131,20 @@ public class Board {
         int count = 0;
         for (Shape shape : shapes) {
             if (shape instanceof Square) {
-                if (x >= shape.getX() && x <= (shape.getX() + shape.getSize())
-                        && y >= shape.getY() && y <= (shape.getY() + shape.getSize())) {
-                    if (shape.ifSelected()) {
-                        shape.setSelected(false);
-                    } else {
-                        shape.setSelected(true);
-                    }
+                if (squareByCoordinate(shape, x, y)) {
+                    changeSelectionIfClick(shape);
                     count++;
                 }
             }
             if (shape instanceof Triangle) {
                 if (triangleByCoordinate(shape, x, y)) {
-                    if (shape.ifSelected()) {
-                        shape.setSelected(false);
-                    } else {
-                        shape.setSelected(true);
-                    }
+                    changeSelectionIfClick(shape);
                     count++;
                 }
             }
             if (shape instanceof Oval) {
-                if ((Math.pow(((shape.getX() + shape.getSize() / 2) - x), 2)
-                        + Math.pow(((shape.getY() + shape.getSize() / 2) - y), 2)) <= Math.pow(shape.getSize() / 2, 2)) {
-                    if (shape.ifSelected()) {
-                        shape.setSelected(false);
-                    } else {
-                        shape.setSelected(true);
-                    }
+                if (ovalByCoordinate(shape, x, y)) {
+                    changeSelectionIfClick(shape);
                     count++;
                 }
             }
@@ -178,6 +164,24 @@ public class Board {
         double B = (bX - x) * (aY - bY) - (cX - bX) * (bY - y);
         double C = -1 * (aX - cX) * (aY - y);
         return (A > 0 && B > 0 && C > 0) || (A < 0 && B < 0 && C < 0);
+    }
+
+    private boolean ovalByCoordinate(Shape shape, double x, double y) {
+        return (Math.pow(((shape.getX() + shape.getSize() / 2) - x), 2)
+                + Math.pow(((shape.getY() + shape.getSize() / 2) - y), 2)) <= Math.pow(shape.getSize() / 2, 2);
+    }
+
+    private boolean squareByCoordinate(Shape shape, double x, double y){
+        return x >= shape.getX() && x <= (shape.getX() + shape.getSize())
+                && y >= shape.getY() && y <= (shape.getY() + shape.getSize());
+    }
+
+    private void changeSelectionIfClick(Shape shape){
+        if (shape.ifSelected()) {
+            shape.setSelected(false);
+        } else {
+            shape.setSelected(true);
+        }
     }
 
     private void addClonesToMainList(List<Shape> tmpList) {
