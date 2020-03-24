@@ -95,12 +95,16 @@ public class Board {
         if (shapes.isEmpty()) {
             System.out.println("Nothing to select!");
         }
-        if (numberOfShape >= shapes.size()) {
-            numberOfShape = 0;
+        if (shapes.size() == 1){
+            changeSelectionIfClick(shapes.get(0));
+        } else {
+            if (numberOfShape >= shapes.size()) {
+                numberOfShape = 0;
+            }
+            allNonSelected();
+            shapes.get(numberOfShape).setSelected(true);
+            numberOfShape++;
         }
-        allNonSelected();
-        shapes.get(numberOfShape).setSelected(true);
-        numberOfShape++;
     }
 
     public void move(Direction direction) {
@@ -130,6 +134,29 @@ public class Board {
     public void selectByMouse(double x, double y) {
         int count = 0;
         for (Shape shape : shapes) {
+            if (shape instanceof CombineShapes){
+                for (Shape combineShape : ((CombineShapes) shape).getCombineShapes()) {
+                   if (combineShape instanceof Square){
+                       if (squareByCoordinate(combineShape, x, y)) {
+                           changeSelectionIfClick(shape);
+                           count++;
+                       }
+                   }
+                   if (combineShape instanceof Triangle) {
+                        if (triangleByCoordinate(combineShape, x, y)) {
+                            changeSelectionIfClick(shape);
+                            count++;
+                        }
+                   }
+                    if (combineShape instanceof Oval) {
+                        if (ovalByCoordinate(combineShape, x, y)) {
+                            changeSelectionIfClick(shape);
+                            count++;
+                        }
+                    }
+
+                }
+            }
             if (shape instanceof Square) {
                 if (squareByCoordinate(shape, x, y)) {
                     changeSelectionIfClick(shape);
