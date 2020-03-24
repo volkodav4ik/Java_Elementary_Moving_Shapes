@@ -14,6 +14,23 @@ public class CombineShapes implements Shape {
         setCombineShapes(combineShapes);
     }
 
+    public CombineShapes(CombineShapes original) {
+        List<Shape> tmpList = new ArrayList<>();
+        for (Shape shape : original.getCombineShapes()) {
+            if (shape instanceof Oval){
+                tmpList.add(new Oval((Oval) shape));
+            }
+            if (shape instanceof Square) {
+                tmpList.add(new Square((Square) shape));
+            }
+            if (shape instanceof Triangle) {
+                tmpList.add(new Triangle((Triangle) shape));
+            }
+            shape.setSelected(false);
+        }
+        setCombineShapes(tmpList);
+    }
+
     private void setCombineShapes(List<Shape> combineShapes) {
         this.combineShapes.clear();
         for (Shape shape : combineShapes) {

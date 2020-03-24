@@ -72,6 +72,9 @@ public class Board {
                 if (shape instanceof Triangle) {
                     tmpList.add(new Triangle((Triangle) shape));
                 }
+                if (shape instanceof CombineShapes) {
+                    tmpList.add(new CombineShapes((CombineShapes) shape));
+                }
                 shape.setSelected(false);
             }
         }
