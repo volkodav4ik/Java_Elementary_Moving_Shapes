@@ -23,6 +23,10 @@ public class Board {
 
     }
 
+    public List<Shape> getShapes() {
+        return shapes;
+    }
+
     public void drawFrame() {
         for (Shape shape : shapes) {
             if (shape.ifSelected()) {

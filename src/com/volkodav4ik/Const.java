@@ -12,4 +12,5 @@ public class Const {
     public static final double STEP_OF_MOVEMENT = 5;
     public static final double VALUE_OF_CHANGING_SIZE = 5;
     public static final String SAVE_FILE_NAME = "save.txt";
+    public static final double COORDINATE_FOR_INSTRUCTION = 100;
 }

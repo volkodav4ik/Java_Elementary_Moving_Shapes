@@ -15,6 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.*;
 
@@ -134,6 +135,7 @@ public class Main extends Application {
     }
 
     private void runGame() {
+
         while (!closed) {
             Platform.runLater(this::drawFrame);
             try {
@@ -145,7 +147,19 @@ public class Main extends Application {
     }
 
     private void drawFrame() {
+        if (board.getShapes().isEmpty()){
+            gc.setFill(Color.BLACK);
+            gc.clearRect(0, 0, Const.BOARD_WIDTH, Const.BOARD_HEIGHT);
+            gc.fillText("\nIf you want to download previous game, please press \"Ctrl+L\"" +
+                    "\nIf you want to save game, please press \"Ctrl+S\"" +
+                    "\nControls:\nmove: arrows;\ncreate Oval: key \"Q\";\ncreate Square: key \"W\";\ncreate Triangle: key \"E\";" +
+                    "\nincrease/decrease size of selected shapes: \"+\"/\"-\" on NumPad;\nselect one by one: key \"R\";" +
+                    "\nselect all of shapes: \"Ctrl+A\"\ndelete selected shapes: key \"delete\"\nclone of selected shapes: \"Ctrl+K\"" +
+                    "\nIf Ctrl is down you can select or deselect any of shapes by mouse and deselect all of them to click on free space",
+                    Const.COORDINATE_FOR_INSTRUCTION, Const.COORDINATE_FOR_INSTRUCTION);
+        } else {
         gc.clearRect(0, 0, Const.BOARD_WIDTH, Const.BOARD_HEIGHT);
         board.drawFrame();
+        }
     }
 }
